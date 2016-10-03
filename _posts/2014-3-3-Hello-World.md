@@ -1,10 +1,28 @@
 ---
 layout: post
-title: You're up and running!
+title: Lombok your project
 ---
 
-Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).
+###Lombok your project
 
-![_config.yml]({{ site.baseurl }}/images/config.png)
 
-The easiest way to make your first post is to edit this one. Go into /_posts/ and update the Hello World markdown file. For more instructions head over to the [Jekyll Now repository](https://github.com/barryclark/jekyll-now) on GitHub.
+[Lombok](https://projectlombok.org/) is a great tool to keep your codebase clean and focused only on business logic. 
+Setting it up on IDE (eclipse in my case) is easy if you follow guidelines given by lombok but setting it up outside IDE is not so simple. I have set it up on my gradle project using following steps. All changes are in build.gradle 
+
+####I1) Include lombok in dependencies
+```java
+dependencies { 
+    compile "org.projectlombok:lombok:1.16.8"
+}
+```
+#####2) 2) Add a delombok task 
+```java
+task delombok {
+    description 'Delomboks the source code'
+    ant.taskdef(classname: 'lombok.delombok.ant.Tasks$Delombok', classpath: configurations.compile.asPath,  name: 'delombok')
+    ant.mkdir(dir: 'build/src-delomboked') 
+    ant.delombok(verbose: 'true', encoding: 'UTF-8', to: 'build/src-delomboked', from: 'src/main/java')
+}
+```
+----
+****
